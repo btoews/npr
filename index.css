@@ -1,0 +1,51 @@
+div#results-container > div#loading {
+    display: none;
+}
+
+div#results-container.loading > div#loading {
+    display: block;
+}
+
+div#results-container > div#locreq {
+    display: none;
+}
+
+div#results-container.loading.locreq > div#locreq {
+    display: none;
+}
+
+div#results-container.locreq > div#locreq {
+    display: block;
+}
+
+div#results-container.loading > div#loaded {
+    display: none;
+}
+
+div#results-container.locreq > div#loaded {
+    display: none;
+}
+
+div#results-container > div#loaded {
+    display: block;
+}
+
+ul#sites {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul#sites li.site {
+    padding: 10px;
+}
+
+ul#sites li.site div {
+    padding: 2px;
+    display: inline;
+}
+
+ul#sites div.callsign {
+    font-weight: bolder;
+    font-size: large    ;
+}
