@@ -60,7 +60,7 @@ function fastMinDistance(user, site) {
 fetch('sites.json').then(function(response) {
     response.json().then(function(sites) {
         let run = function() {
-            const resultsContainer = document.querySelector('#results-container');
+            const resultsContainer = document.querySelector('#content');
             resultsContainer.classList.remove('loading');
 
             const ul = document.querySelector('ul#sites');

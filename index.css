@@ -1,51 +1,67 @@
-div#results-container > div#loading {
+div#container {
+    font-family: sans-serif;
+    width: 500px;
+    margin: auto;
+}
+
+#header {
+    text-align: center;
+}
+
+#content > #loading {
     display: none;
 }
 
-div#results-container.loading > div#loading {
+#content.loading > #loading {
     display: block;
 }
 
-div#results-container > div#locreq {
+#content > #locreq {
     display: none;
 }
 
-div#results-container.loading.locreq > div#locreq {
+#content.loading.locreq > #locreq {
     display: none;
 }
 
-div#results-container.locreq > div#locreq {
+#content.locreq > #locreq {
     display: block;
 }
 
-div#results-container.loading > div#loaded {
+#content.loading > #loaded {
     display: none;
 }
 
-div#results-container.locreq > div#loaded {
+#content.locreq > #loaded {
     display: none;
 }
 
-div#results-container > div#loaded {
+#content > #loaded {
     display: block;
 }
 
-ul#sites {
+#sites {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-ul#sites li.site {
+#sites li.site {
     padding: 10px;
 }
 
-ul#sites li.site div {
+#sites li.site div {
     padding: 2px;
     display: inline;
 }
 
-ul#sites div.callsign {
+#sites div.callsign {
     font-weight: bolder;
     font-size: large    ;
+}
+
+#footer {
+    text-align: center;
+    padding: 10px;
+    margin: 20px auto 0px auto;
 }

@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <script type="application/javascript" src="index.js"></script>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <div id="container">
+            <div id="header">
+                <h1>Public Radio Finder</h1>
+            </div>
+            <div id="content" class="loading locreq">
+                <p>This tool finds the public radio stations in the United States with the best chance of being available at your current location. Results are based on <a href="https://www.fcc.gov/media/radio/cdbs-database-public-files">station data</a> and <a href="https://www.fcc.gov/media/radio/fm-service-contour-data-points">service contour data</a> published by the FCC.</p>
+                <p>Visiting the tool in your browser loads data for all public radio stations in the United States. As your location changes, the results are updated automatically. This means you can load the tool while you have cell phone service in Denver and then find the nearest NPR station when you make it to bumfuck Kanas with no cell phone service.</p>
+                <p>Station recommendations should be fairly reliable. The FCC publishes "service contours" describing the area where towers' signals should reach and should be free on interference from other stations. This tool calculates your distance to each station using the <a href="https://en.m.wikipedia.org/wiki/Law_of_haversines">haversine formula</a> and compares that to the FCC's range estimate for that station.</p>
+                <p>The FCC's data is far from perfect and Wikipedia's <a href="https://en.wikipedia.org/wiki/List_of_NPR_stations">list of NPR stations</a> is too. If you notice missing or incorrect data, you can reach me on <a href="https://twitter.com/bptoews">Twitter</a>.</p>
+            </div>
+            <div id="footer">
+                <hr>
+                <a href="index.html">home</a>
+                <br><br>
+                Copyright Ben Toews 2020
+            </div>
+        </div>
+    </body>
+</html>
