@@ -97,7 +97,7 @@ fetch('sites.json').then(function(response) {
 
                 site.li.addEventListener('click', function(event) {
                     sites.forEach(function(site) {
-                        if (site.li === event.target) {
+                        if (site.li === event.target.closest('li.site')) {
                             site.li.classList.toggle('expanded');
                         } else {
                             site.li.classList.remove('expanded');
