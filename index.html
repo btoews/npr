@@ -1,5 +1,6 @@
 <html>
     <head>
+        <meta charset="UTF-8">
         <script type="application/javascript" src="index.js"></script>
         <link rel="stylesheet" href="index.css">
     </head>
@@ -14,10 +15,55 @@
                 <div id="loaded">
                     <ul id="sites">
                         <li class="site">
-                            <div class="callsign"></div>
-                            <div class="frequency"></div>
-                            <div class="distance"></div>
-                            <div class="bearing"></div>
+                            <div class="detail">
+                                <div class="label">Callsign:</div>
+                                <div class="callsign value"></div>
+                            </div>
+
+                            <div class="detail">
+                                <div class="label">Frequency:</div>
+                                <div class="frequency value"></div>
+                            </div>
+
+                            <div class="detail expandable">
+                                <div class="label">Direction:</div>
+                                <div class="bearing value"></div>
+                            </div>
+
+                            <div class="detail expandable">
+                                <div class="label">Range:</div>
+                                <div class="range value"></div>
+                            </div>
+
+                            <div class="detail expandable">
+                                <div class="label">Distance:</div>
+                                <div class="distance value"></div>
+                            </div>
+
+                            <div class="detail expandable">
+                                <div class="label">Latitude:</div>
+                                <div class="latitude value"></div>
+                            </div>
+
+                            <div class="detail expandable">
+                                <div class="label">Longitude:</div>
+                                <div class="longitude value"></div>
+                            </div>
+
+                            <div class="detail expandable">
+                                <div class="label">City:</div>
+                                <div class="city value"></div>
+                            </div>
+
+                            <div class="detail expandable">
+                                <div class="label">State:</div>
+                                <div class="state value"></div>
+                            </div>
+
+                            <div class="detail expandable">
+                                <div class="label">FCC data:</div>
+                                <div class="fcclink value"><a target="_blank">link</a></div>
+                            </div>
                         </li>
                     </ul>
                 </div>

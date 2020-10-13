@@ -48,16 +48,43 @@ div#container {
 
 #sites li.site {
     padding: 10px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(0, 0, 0, 0.05);
+    border-bottom-style: solid;
 }
 
-#sites li.site div {
+#sites li.site div.detail {
     padding: 2px;
     display: inline;
 }
 
-#sites div.callsign {
-    font-weight: bolder;
-    font-size: large    ;
+#sites li.site.expanded div.detail {
+    padding: 2px;
+    display: block;
+}
+
+#sites li.site div.detail div.label {
+    display: none;
+}
+
+#sites li.site.expanded div.detail div.label {
+    display: inline;
+}
+
+#sites li.site div.detail.expandable {
+    display: none;
+}
+
+#sites li.site.expanded div.detail.expandable {
+    display: block;
+}
+
+#sites li.site div.detail div.value {
+    display: inline;
+}
+
+#sites li.site div.detail:first-child {
+    font-weight: bold;
 }
 
 #footer {
