@@ -31,7 +31,7 @@ function bearingFromSite(user, site) {
     const theta = Math.atan2(y, x);
     const bearing = (theta * 180/Math.PI + 360) % 360;
 
-    return Math.round(bearing);
+    return bearing;
 }
 
 // azimuth from user to site.
@@ -131,7 +131,7 @@ fetch('sites.json').then(function(response) {
                         if (site.distance < 157) {
                             site.bearingFrom = bearingFromSite(position.coords, site);
                             site.bearingTo = bearingToSite(position.coords, site);
-                            site.range = site.contour[site.bearingFrom - 1];
+                            site.range = site.contour[Math.round(site.bearingFrom / 2) - 1];
                             site.score = site.distance / site.range;
 
                             site.li.querySelector('div.distance').innerText = roundTwo(site.distance).toString() + ' mi';
