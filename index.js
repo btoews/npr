@@ -56,9 +56,12 @@ function roundTwo(f) {
 }
 
 // set <li> color based on signal score
+//   - <=1   green
+//   - 1-2   green->yellow->red
+//   - >=2   red
 function setColor(site) {
-    let red = Math.round(Math.min(Math.max(255 * site.score - 255, 0), 255));
-    let green = Math.round(Math.min(Math.max(-255 * site.score + 765, 0), 255));
+    let red = Math.round(Math.min(Math.max(510 * site.score - 510, 0), 255));
+    let green = Math.round(Math.min(Math.max(-510 * site.score + 1020, 0), 255));
     site.li.style = 'background-color: rgba(' + red.toString() + ',' + green.toString() + ',100, 0.8);';
 }
 
