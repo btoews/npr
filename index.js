@@ -53,12 +53,12 @@ function roundTwo(f) {
 }
 
 // set <li> color based on signal score
-//   - <=1   green
-//   - 1-2   green->yellow->red
-//   - >=2   red
+//   - <=1.5 green
+//   - 1.5-3 green->yellow->red
+//   - >=3   red
 function setColor(site) {
-    const red = Math.round(Math.min(Math.max(510 * site.score - 510, 0), 255));
-    const green = Math.round(Math.min(Math.max(-510 * site.score + 1020, 0), 255));
+    const red = Math.round(Math.min(Math.max(340 * site.score - 510, 0), 255));
+    const green = Math.round(Math.min(Math.max(-340 * site.score + 1020, 0), 255));
     site.li.style = 'background-color: rgba(' + red.toString() + ',' + green.toString() + ',100, 0.8);';
 }
 
@@ -110,7 +110,7 @@ fetch('sites.json').then(function(response) {
 
                 // if the station is farther than this we'll skip filling in
                 // details for it later.
-                site.maxDistance = Math.max(...site.contour) * 2.5;
+                site.maxDistance = Math.max(...site.contour) * 3;
             });
 
             const update = function(position) {
@@ -136,7 +136,7 @@ fetch('sites.json').then(function(response) {
                         site.score = site.distance / site.range;
                     }
 
-                    if (site.score <= 2.5) {
+                    if (site.score <= 3) {
                         site.bearingTo = bearingToSite(position.coords, site);
                         site.li.querySelector('div.distance').innerText = roundTwo(site.distance).toString() + ' mi';
                         site.li.querySelector('div.bearing').innerText = site.bearingTo.toString() + '\u00b0';
