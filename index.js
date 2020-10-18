@@ -123,12 +123,12 @@ fetch('sites.json').then(function(response) {
                     site.score = 100;
 
                     // the furthest station range in our data is 62.65mi. Since
-                    // we only show sites within 3x the documented range, skip
-                    // calculating actual distance/bearing if station is >188mi
+                    // we only show sites within 2.5x the documented range, skip
+                    // calculating actual distance/bearing if station is >157mi
                     // away.
-                    if (site.distance < 188) {
+                    if (site.distance < 157) {
                         site.distance = milesFromSite(position.coords, site);
-                        if (site.distance < 188) {
+                        if (site.distance < 157) {
                             site.bearingFrom = bearingFromSite(position.coords, site);
                             site.bearingTo = bearingToSite(position.coords, site);
                             site.range = site.contour[site.bearingFrom - 1];
@@ -140,7 +140,7 @@ fetch('sites.json').then(function(response) {
                             setColor(site);
                         }
                     }
-                    site.li.hidden = site.score > 3;
+                    site.li.hidden = site.score > 2.5;
                 });
 
                 sites.sort(function (a, b) {
