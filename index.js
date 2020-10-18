@@ -3,10 +3,7 @@ const earthRadius = 3958.8; // miles
 // miles from site to user.
 function milesFromSite(user, site) {
     const sitePhi = site.siteLat * Math.PI/180;
-    const siteLam = site.siteLon * Math.PI/180;
-
     const userPhi = user.latitude * Math.PI/180;
-    const userLam = user.longitude * Math.PI/180;
 
     const deltaPhi = (site.siteLat - user.latitude) * Math.PI/180;
     const deltaLam = (site.siteLon - user.longitude) * Math.PI/180;
@@ -60,22 +57,25 @@ function roundTwo(f) {
 //   - 1-2   green->yellow->red
 //   - >=2   red
 function setColor(site) {
-    let red = Math.round(Math.min(Math.max(510 * site.score - 510, 0), 255));
-    let green = Math.round(Math.min(Math.max(-510 * site.score + 1020, 0), 255));
+    const red = Math.round(Math.min(Math.max(510 * site.score - 510, 0), 255));
+    const green = Math.round(Math.min(Math.max(-510 * site.score + 1020, 0), 255));
     site.li.style = 'background-color: rgba(' + red.toString() + ',' + green.toString() + ',100, 0.8);';
 }
 
-// fast calculation for lower bound on distance based on one degree of lat/lon
-// being ~69 miles.
-function fastMinDistance(user, site) {
-    let deltaLat = Math.abs(user.latitude - site.siteLat);
-    let deltaLon = Math.abs(user.longitude - site.siteLon);
-    return Math.max(deltaLat, deltaLon) * 69;
+// fast calculation of distance using pythagorean theorom. For the distances
+// we're dealing with, there's almost no error from treating the earth as flat.
+// we still use haversine later on though to be pedantic. The value returned by
+// this function should be an overestimate.
+function fastMilesFromSite(user, site) {
+    const deltaPhi = (site.siteLat - user.latitude) * Math.PI/180;
+    const deltaLam = (site.siteLon - user.longitude) * Math.PI/180;
+
+    return earthRadius * Math.sqrt(deltaPhi ** 2 + deltaLam ** 2);
 }
 
 fetch('sites.json').then(function(response) {
     response.json().then(function(sites) {
-        let run = function() {
+        const run = function() {
             const resultsContainer = document.querySelector('#content');
             resultsContainer.classList.remove('loading');
 
@@ -107,40 +107,45 @@ fetch('sites.json').then(function(response) {
                         }
                     });
                 });
+
+                // if the station is farther than this we'll skip filling in
+                // details for it later.
+                site.maxDistance = Math.max(...site.contour) * 2.5;
             });
 
-            let update = function(position) {
+            const update = function(position) {
                 if (sites.updating) {
                     return;
                 }
+
                 resultsContainer.classList.remove('locreq');
 
-                let updateStart = window.performance.now();
+                const updateStart = window.performance.now();
                 sites.updating = true;
 
                 sites.forEach(function(site) {
-                    site.distance = fastMinDistance(position.coords, site);
+                    site.distance = fastMilesFromSite(position.coords, site);
                     site.score = 100;
 
-                    // the furthest station range in our data is 62.65mi. Since
-                    // we only show sites within 2.5x the documented range, skip
-                    // calculating actual distance/bearing if station is >157mi
-                    // away.
-                    if (site.distance < 157) {
+                    // skip filling in details for site if it's definitely too
+                    // far away.
+                    if (site.distance <= site.maxDistance) {
                         site.distance = milesFromSite(position.coords, site);
-                        if (site.distance < 157) {
-                            site.bearingFrom = bearingFromSite(position.coords, site);
-                            site.bearingTo = bearingToSite(position.coords, site);
-                            site.range = site.contour[Math.round(site.bearingFrom / 2) - 1];
-                            site.score = site.distance / site.range;
-
-                            site.li.querySelector('div.distance').innerText = roundTwo(site.distance).toString() + ' mi';
-                            site.li.querySelector('div.bearing').innerText = site.bearingTo.toString() + '\u00b0';
-                            site.li.querySelector('div.range').innerText = site.range.toString() + ' mi';
-                            setColor(site);
-                        }
+                        site.bearingFrom = bearingFromSite(position.coords, site);
+                        site.range = site.contour[Math.round(site.bearingFrom / 2) % 180];
+                        site.score = site.distance / site.range;
                     }
-                    site.li.hidden = site.score > 2.5;
+
+                    if (site.score <= 2.5) {
+                        site.bearingTo = bearingToSite(position.coords, site);
+                        site.li.querySelector('div.distance').innerText = roundTwo(site.distance).toString() + ' mi';
+                        site.li.querySelector('div.bearing').innerText = site.bearingTo.toString() + '\u00b0';
+                        site.li.querySelector('div.range').innerText = site.range.toString() + ' mi';
+                        setColor(site);
+                        site.li.hidden = false;
+                    } else {
+                        site.li.hidden = true;
+                    }
                 });
 
                 sites.sort(function (a, b) {
@@ -156,7 +161,7 @@ fetch('sites.json').then(function(response) {
                     }
                 });
 
-                let updateFinish = window.performance.now();
+                const updateFinish = window.performance.now();
                 console.log('finished updating', updateFinish - updateStart, 'ms');
                 sites.updating = false;
             }
