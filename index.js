@@ -171,7 +171,8 @@ fetch('sites.json').then(function(response) {
             navigator.geolocation.watchPosition(update);
         }
 
-        if (document.readyState == 'complete') {
+        console.log(console.log('readyState=' + document.readyState));
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
             run();
         } else {
             window.addEventListener('DOMContentLoaded', run);
